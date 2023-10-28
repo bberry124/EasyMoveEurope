@@ -1,0 +1,20 @@
+.navbar ul li a {
+    text-decoration: none;
+}
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* toast alert */
+#toast-container > div {
+    opacity:1;
+}
+.account-link:hover {
+    color: black!important;   
+}
+
+body, html {
+    height: 100%;
+    text-align: center;
+}
+

@@ -1,0 +1,21 @@
+.sendbtn {
+  color: #fff;
+  border: 3px solid #253247;
+  background-image: linear-gradient(30deg, #253247 50%, transparent 50%);
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position: 0%;
+  transition: background 500ms ease-in-out;
+  width: 150px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: unset;
+  width: 200px;
+  margin: 20px auto;
+}
+.sendbtn:hover {
+  background-position: 100%;
+  color: #253247;
+}

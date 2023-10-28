@@ -1,0 +1,347 @@
+.van-label {
+    border: 1px solid lightgrey;
+    padding: 30px 10px;
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 15px;
+    align-items: center;
+}
+.user-label {
+    height: 111px;
+}
+.van-label:hover {
+    border-color: grey;
+    background-color: white;
+    color: black;
+}
+.van-item {
+    background-color: #f3f6fc;
+    text-align: center;
+    border-radius: 5px;
+    transition: 1s;
+    color: grey;
+    cursor: pointer;
+}
+.van-info:hover {
+    color: grey;
+}
+.van-info {
+    color: lightgrey;
+    margin: auto 0px;
+    font-size: 22px;
+}
+.order-input {
+    padding: 0px!important;
+    margin-top: 5px!important;
+}
+.country-input {
+    border-radius: 10px;
+    background-color: transparent!important;
+    border: 1px solid white!important;
+    color: white!important;
+}
+.stats-item {
+    padding: 0px!important;
+}
+.about-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 50px 0px 30px;
+    color: #001973;
+    text-align: center;
+}
+.privacy-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 50px 0px 30px;
+    color: #001973;
+    text-align: center;
+}
+.how-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #001973;
+    text-align: center;
+    margin-bottom: 25px;
+}
+.about-text {
+    text-align: center;
+    color: #131d32;
+}
+.privacy-text {
+    color: #131d32;
+}
+.form-search {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 20px;
+    background-color: rgb(14 29 52 / 60%);
+    box-shadow: 2px 2px 5px 0;
+}
+.form-search label {
+    font-size: 18px;
+    font-weight: 600;
+}
+.submitbtn {
+    /* background-color: transparent!important; */
+    border-color: white;
+    padding: 15px 30px;
+    border: 1px solid white;
+    text-decoration: none;
+    border-radius: 10px;
+    color: white;
+    transition: 500ms;
+}
+.submitbtn:hover {
+    color: white;
+    background-color: #132642!important;
+}
+.submit-button {
+    display: flex;
+    justify-content: end;
+}
+.number-icon {
+    color: #001f8d;
+    font-size: 48px;
+    transition: 0.3s;
+}
+.number-section {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.service-item {
+    flex-flow: column;
+}
+.service-detail {
+    display: flex;
+}
+.call-title {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+}
+.acc-content {
+    padding-top: 20px!important;
+}
+.about-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #001973;
+    text-align: center;
+}
+.service-detail:nth-child(2) {
+    display: flex;
+    align-items: end;
+    text-align: center;
+}
+.awesome-icon {
+    position: absolute;
+    padding: 22px 5px;
+}
+.privacy-last-text {
+    text-align: center;
+    color: grey;
+}
+.get-a-quote {
+    padding: 80px 0px;
+}
+.get-a-order {
+    padding: 140px 0px 80px;
+}
+.about-footer {
+    text-align: end;
+}
+.about-founder {
+    color: grey;
+    text-align: end;
+}
+.about-founder span {
+    color: black;
+    font-weight: 600;
+}
+.order-label {
+    font-size: 22px;
+    font-weight: 600;
+    color: #3e4a5d;
+    margin-top: 25px;
+}
+.order-cell {
+    border-bottom: 2px dashed lightgrey;
+    padding-bottom: 15px;
+}
+.order-btn {
+    margin-top: 35px;
+}
+.order-button {
+    background: rgb(54 82 126);
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.personal-infos label {
+    font-size: 14px;
+    color: grey;
+}
+.personal-section {
+    border-bottom: 2px dashed lightgrey;
+    padding-bottom: 35px;
+}
+.van-section {
+    border-bottom: 2px dashed lightgrey;
+    padding-bottom: 35px;
+}
+.van-type-section label {
+    cursor: pointer;
+}
+.van-info:hover {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+}
+.btn-check {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    margin: auto 0px;
+}
+
+.service-options[role=checkbox] {
+    margin: 0;
+    padding: 0;    
+    border: 2px transparent solid;
+ }
+ 
+ .service-options[role=checkbox]:active {
+   background-color: #bbb;
+ }
+   
+ .service-options[role=checkbox]:hover {
+    border-color: #777;
+ }
+ 
+ .service-options[role=checkbox].focus {
+    border-color: black;
+ }
+ .service-options {
+    width: 100%;
+    flex-wrap: wrap;
+ }
+ #example{
+    background-color: #F1F1F1 ;
+    padding:5px;
+ }
+ .check-img {
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+ }
+ .flat-img {
+    width: 55px;
+    height: 55px;
+    margin: auto;
+ }
+ .service-text {
+    font-size: 16px!important;
+    font-weight: 600;
+ }
+ .service-cell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 1px solid lightgrey;
+    padding: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+ }
+ .service-option {
+    padding: 25px;
+    align-items: center;
+ }
+ .check-text {
+    font-size: 16px;
+    font-weight: 600;
+ }
+ .service-cell:hover {
+    background-color: white;
+ }
+ .cargo-label {
+    color: grey;
+    font-size: 14px;
+ }
+.desc-text {
+    font-size: 12px;
+    color: grey;
+}
+.form-wrapper {
+    border: 1px solid lightgrey;
+}
+.form-wrapper input {
+    padding: 12px 15px;
+}
+.privacy-input {
+    padding: initial!important;
+}
+.privacy-area {
+    margin: 25px 10px;
+}
+.contact-area label {
+    color: grey;
+    font-size: 14px;
+}
+.location-img {
+    width: 20px;
+    height: 20px;
+}
+.measure-cell {
+    margin: auto;
+}
+.loc-img {
+    margin: auto 10px;
+
+}
+.select-country option {
+    color: white;
+    background-color: #0e1d34;
+    width: 100%;
+    padding: 15px;
+    margin: 15px;
+}
+
+/* Media Query */
+@media screen and (max-width: 992px) {
+    .hero-img {
+       display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .service-detail {
+       margin: auto;
+    }
+    .fix-footer-route {
+        display: none!important;
+    }
+}

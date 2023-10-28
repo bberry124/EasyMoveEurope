@@ -1,0 +1,50 @@
+.interior-one {
+    background: #3B76EF;
+    color: white;
+}
+.interior-two {
+    background: #63C7FF;
+    color: white;
+}
+.interior-three {
+    background: #A66DD4;
+    color: white;
+}
+.interior-four {
+    background: #6DD4B1;
+    color: white;
+}
+.interior:hover {
+    background-color: #3B76EF;
+    transition-duration: 500ms;
+    box-shadow: 3px 3px 5px 0px;
+}
+.interior {
+    padding: 15px;
+    border-radius: 15px;
+    color: #301010;;
+}
+.single-card {
+    margin-top: 15px;
+}
+.card-text, .card-title, .card-percent {
+    color: white;
+}
+.card-title, .card-percent {
+    color: #352b53;
+}
+.counter {
+    color: white;
+}
+a:hover {
+    text-decoration: none;
+}
+.card-icon {
+    font-size: 75px;
+    color: white;
+    margin: auto;
+    opacity: 50%;
+}
+.card-icon:hover {
+    opacity: 100%;
+}

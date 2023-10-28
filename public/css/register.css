@@ -1,0 +1,81 @@
+.signup-option {
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+    border: 1px solid lightgrey;
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 15px;
+}
+.signup-option:hover {
+    background-color: white;
+}
+.signup-option h4 {
+    color: black;
+}
+.flat-img {
+    width: 70px;
+    height: 70px;
+}
+.service-text {
+    text-decoration: none;
+}
+.status-progress {
+    background-color: #3d495c;
+}
+.signup-content input {
+    padding: 15px 35px;
+}
+.form-button {
+    text-align: center;
+}
+.form-title {
+    margin-bottom: 0px;
+}
+.signup-text {
+    margin-bottom: 25px;
+}
+.form-submit {
+    text-align: center;
+}
+.operbtn  {
+    width: 200px;
+    height: 58px;
+    border: none;
+}
+.signup-label {
+    position: relative;
+    border: 1px solid grey;
+    padding: 15px;
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 15px;
+    align-items: center;
+    cursor: pointer;
+}
+.signup-label:hover {
+    background-color: white;
+}
+.btn-check {
+    position: relative;
+    width: 15px;
+}
+.label-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin: auto;
+}
+.error-valid {
+    color: #dc3545;
+    text-align: left;
+    display: none;
+}
+#toast-container > div {
+    opacity:1;
+}
+.first-section-content .form-group {
+    margin-bottom: 5px;
+}
+.second-section-content .form-group {
+    margin-bottom: 5px;
+}

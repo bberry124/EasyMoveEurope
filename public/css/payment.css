@@ -1,0 +1,55 @@
+.container {
+  margin-top: 120px;
+  margin-bottom: 40px;
+}
+
+.panel-heading {
+  display: inline;
+  font-weight: bold;
+}
+
+.flex-table {
+  display: table;
+}
+
+.display-tr {
+  display: table-row;
+}
+
+.display-td {
+  display: table-cell;
+  vertical-align: middle;
+}
+.error-text {
+  display: block;
+}
+.payment-img {
+  width: 60%;
+}
+.form-control {
+  padding: 10px;
+}
+.form-group {
+  text-align: left;
+}
+.form-row {
+  margin: 15px 0px;
+}
+
+@media screen and (max-width: 992px) {
+  .payment-img {
+     width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .payment-image {
+     display: none;
+  }
+}
+
+.expiration {
+  margin-bottom: 15px;
+}
+.strip-img {
+  width: 170px;
+}

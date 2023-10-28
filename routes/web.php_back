@@ -1,0 +1,189 @@
+<?php
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('testlang', function(){
+
+
+    return \Illuminate\Support\Facades\Artisan::call('config:cache');
+});
+
+Route::get('lang/{lang}', [\App\Http\Controllers\HomeController::class, 'languageChange'])->name('change-language');
+
+
+Route::get('/', function () { return view('index');});
+
+
+Auth::routes();
+// Route::get('/comsignup', function () {
+//         return view('comsignup');
+//     });
+Route::get('comsignup',[App\Http\Controllers\Auth\ComRegisterController::class, 'index']);
+Route::get('checkValidVat/{vat}',[App\Http\Controllers\Auth\ComRegisterController::class, 'checkValidVat'])->name('checkValidVat');
+
+Route::post('comsignup',[App\Http\Controllers\Auth\ComRegisterController::class, 'create'])->name('comsignup.create');
+
+
+
+
+/*------------------------------------------
+--------------------------------------------
+All Normal Users Routes List
+--------------------------------------------
+--------------------------------------------*/
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    if(auth()->user()->type == 'user'){
+    return redirect(route('dashboard'));
+    }
+    else{
+        return redirect(route('company.companyDashboard'));
+
+    }
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/verification-notification', function (\Illuminate\Http\Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+Route::post('contact_us', [App\Http\Controllers\MailController::class, 'contact']);
+
+    Route::get('/about', function () {
+        return view('about');
+    });
+    Route::get('/contact', function () {
+        return view('contact');
+    });
+    Route::get('/service', function () {
+        return view('service');
+    });
+
+
+    Route::get('/privacy', function () {
+        return view('privacy');
+    });
+    Route::get('/whosignup', function () {
+        return view('whosignup');
+    });
+
+
+Route::get('price', function() { return redirect('/'); });
+Route::post('distance_calculate',[App\Http\Controllers\PriceController::class, 'calculate_price'])->name('price.calculate_price');
+    Route::get( 'priceIndex',[App\Http\Controllers\PriceController::class, 'index'])->name('price.index');
+    Route::post('priceCreate',[App\Http\Controllers\PriceController::class, 'create'])->name('price.create');
+Route::post('priceUpdate/{id}',[App\Http\Controllers\PriceController::class, 'update'])->name('price.update');
+Route::post('calculate_average_price',[App\Http\Controllers\PriceController::class, 'calculate_average_price'])->name('price.calculate_average_price');
+
+    Route::get('/invoice/{id}', [App\Http\Controllers\InvoiceController::class, 'index']);
+    Route::post('invoiceCreate',[App\Http\Controllers\InvoiceController::class, 'create'])->name('invoice.create');
+
+    Route::get('/payment', [App\Http\Controllers\StripeController::class, 'index']);
+Route::get('bank_payment/{id}',[App\Http\Controllers\StripeController::class, 'bankDetail']);
+    Route::get('/stripe-payment', [App\Http\Controllers\StripeController::class, 'handleGet']);
+    Route::post('/stripe-payment', [App\Http\Controllers\StripeController::class, 'handlePost'])->name('stripe.payment');
+
+    Route::get('repair', function () {
+        $locations = DB::table('users')->where(['type'=>'2'])->groupBy('location')->get();
+        $services = DB::table('services')->get();
+        return view('repair', ['locations' => $locations, 'services' => $services]);
+    });
+
+    Route::get('purchase', function () {
+        $locations = DB::table('users')->where(['type'=>'2'])->groupBy('location')->get();
+        return view('purchase', ['locations' => $locations]);
+    });
+
+    Route::get('transport', [App\Http\Controllers\TransportController::class, 'index']);
+
+    Route::get('sendMail', [App\Http\Controllers\MailController::class, 'index']);
+
+Route::middleware(['auth', 'verified', 'user-access:user'])->group(function () {
+    Route::post('repair',[App\Http\Controllers\RepairController::class, 'store'])->name('repair.store');
+    Route::get('repairConfirm', function () { return view('repairConfirm');})->name('repairConfirm');
+
+    Route::post('purchase',[App\Http\Controllers\PurchaseController::class, 'store'])->name('purchase.store');
+    Route::get('purchaseConfirm', function () { return view('purchaseConfirm');})->name('purchaseConfirm');
+
+    Route::post('transport',[App\Http\Controllers\TransportController::class, 'store'])->name('transport.store');
+    Route::get('transportConfirm', function () { return view('transportConfirm');})->name('transportConfirm');
+
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('booking', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
+    Route::get('quote', [App\Http\Controllers\QuoteController::class, 'index'])->name('quote');
+    Route::get('pastQuote', [App\Http\Controllers\QuoteController::class, 'past'])->name('pastQuote');
+    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::post('edit-profile/name',[App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+    Route::post('edit-profile/password',[App\Http\Controllers\ProfileController::class, 'password'])->name('profile.password');
+    Route::get('/create_order', [App\Http\Controllers\ProfileController::class, 'create_order'])->name('user.create_order');
+    Route::get('/quote/get/{sender}/{receiver}', [App\Http\Controllers\ProfileController::class, 'getReceiverDetails'])->name('details-receiver-get');
+    Route::get('/invoice_company',[App\Http\Controllers\ProfileController::class, 'invoice'])->name('invoice-user');
+    Route::get('view_order_company/{id}',[App\Http\Controllers\ProfileController::class, 'viewOrder'])->name('invoice-user');
+});
+
+
+
+/*------------------------------------------
+--------------------------------------------
+All Admin Routes List
+--------------------------------------------
+--------------------------------------------*/
+Route::middleware(['auth', 'user-access:admin'])->group(function () {
+    Route::resource('admin/adminDashboard', App\Http\Controllers\Admin\AdminDashboardController::class);
+    Route::resource('admin/adminRequest', App\Http\Controllers\Admin\AdminRequestController::class);
+    Route::resource('admin/adminComRequest', App\Http\Controllers\Admin\AdminComRequestController::class);
+    Route::resource('admin/adminGuestRequest', App\Http\Controllers\Admin\AdminGuestRequestController::class);
+    Route::resource('admin/adminUser', App\Http\Controllers\Admin\AdminUserController::class);
+    Route::resource('admin/adminCarrier', App\Http\Controllers\Admin\AdminCarrierController::class);
+    Route::resource('admin/adminCompany', App\Http\Controllers\Admin\AdminCompanyController::class);
+    Route::resource('admin/adminNewUser', App\Http\Controllers\Admin\AdminNewUserController::class);
+    Route::resource('admin/adminLocation', App\Http\Controllers\Admin\AdminLocationController::class);
+    Route::resource('admin/adminService', App\Http\Controllers\Admin\AdminServiceController::class);
+    Route::resource('admin/adminCost', App\Http\Controllers\Admin\AdminCostController::class);
+    Route::resource('admin/orders', \App\Http\Controllers\OrderController::class);
+    Route::get('admin/invoice/{id}',[App\Http\Controllers\OrderController::class, 'invoice'])->name('invoice-admin');
+    Route::post("/admin/verify_vat",[App\Http\Controllers\Admin\AdminCompanyController::class, 'verifyVat'])->name('admin.verify-vat');
+});
+
+/*------------------------------------------
+--------------------------------------------
+All Admin Routes List
+--------------------------------------------
+--------------------------------------------*/
+Route::middleware(['auth', 'verified', 'user-access:company'])->group(function () {
+    Route::get('/company/companyDashboard', [App\Http\Controllers\Company\CompanyDashboardController::class, 'index'])->name('company.companyDashboard');
+    Route::get('/company/companyQuote', [App\Http\Controllers\Company\CompanyQuoteController::class, 'index'])->name('company.companyQuote');
+    Route::get('/company/companyQuote/create', [App\Http\Controllers\Company\CompanyQuoteController::class, 'create'])->name('companyQuote.create');
+    Route::get('/company/companyQuote/get/{sender}/{receiver}', [App\Http\Controllers\Company\CompanyQuoteController::class, 'getReceiverDetails'])->name('get-receiver-details');
+    Route::get('/company/companyPastQuote', [App\Http\Controllers\Company\CompanyQuoteController::class, 'past'])->name('company.companyPastQuote');
+    Route::get('/company/companyBooking', [App\Http\Controllers\Company\CompanyBookingController::class, 'index'])->name('company.companyBooking');
+    Route::get('/company/companyProfile', [App\Http\Controllers\Company\CompanyProfileController::class, 'index'])->name('company.companyProfile');
+    Route::post('/company/edit-profile/name',[App\Http\Controllers\Company\CompanyProfileController::class, 'store'])->name('companyProfile.store');
+    Route::post('/company/edit-profile/password',[App\Http\Controllers\Company\CompanyProfileController::class, 'password'])->name('companyProfile.password');
+    Route::get('company/view_order_company/{id}',[App\Http\Controllers\Company\CompanyProfileController::class, 'viewOrder']);
+    Route::post('/company/invoice_company',[App\Http\Controllers\Company\CompanyQuoteController::class, 'invoice'])->name('company.invoice-company');
+    Route::post("/company/verify_vat",[App\Http\Controllers\Company\CompanyQuoteController::class, 'verifyVat'])->name('company.verify-vat');
+
+});
+
