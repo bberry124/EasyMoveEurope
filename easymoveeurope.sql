@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.11
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Sep 01, 2023 at 09:16 AM
--- Server version: 5.7.42-cll-lve
--- PHP Version: 7.4.33
+-- Host: 127.0.0.1
+-- Generation Time: Oct 28, 2023 at 12:16 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -131,7 +130,7 @@ INSERT INTO `carriers` (`id`, `carrier_name`, `carrier_email`, `phone`, `company
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT 1,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -257,7 +256,7 @@ CREATE TABLE `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -270,7 +269,7 @@ CREATE TABLE `invoice` (
   `id` int(11) NOT NULL,
   `uuid` varchar(255) NOT NULL,
   `invoice_type` varchar(15) NOT NULL,
-  `order_id` int(11) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL DEFAULT 0,
   `extra_charge_id` int(11) DEFAULT NULL,
   `invoice_date` date DEFAULT NULL,
   `invoice_amount` decimal(12,2) NOT NULL,
@@ -286,7 +285,8 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`id`, `uuid`, `invoice_type`, `order_id`, `extra_charge_id`, `invoice_date`, `invoice_amount`, `paid_date`, `payment_method`, `status`, `created_at`, `updated_at`) VALUES
-(1, '860ba452eb401e4f5eea446eb3e40b8d3947', 'Invoice', 1, 0, '2023-08-30', '2100.00', '2023-08-30', 'Bank Transfer', 'Confirmed', '2023-08-31 00:10:09', '2023-08-31 00:10:09');
+(1, '860ba452eb401e4f5eea446eb3e40b8d3947', 'Invoice', 1, 0, '2023-08-30', '2100.00', '2023-08-30', 'Bank Transfer', 'Confirmed', '2023-08-31 00:10:09', '2023-08-31 00:10:09'),
+(2, '421533f5eb639e472be8c9feb874276b5967', 'Invoice', 15, 0, '2023-09-04', '2287.28', NULL, 'Deferred', 'Deferred Payment', '2023-09-04 10:53:19', '2023-09-04 10:53:19');
 
 -- --------------------------------------------------------
 
@@ -369,7 +369,7 @@ CREATE TABLE `personal_access_tokens` (
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -521,7 +521,7 @@ CREATE TABLE `requests` (
   `duration` varchar(255) DEFAULT NULL,
   `carrier_id` int(11) DEFAULT NULL,
   `carrier_price` decimal(10,2) DEFAULT NULL,
-  `intenal_note` text,
+  `intenal_note` text DEFAULT NULL,
   `payment_method` varchar(30) DEFAULT NULL,
   `invoice_id` int(11) DEFAULT NULL,
   `admin_email_sent` varchar(255) DEFAULT NULL,
@@ -534,7 +534,14 @@ CREATE TABLE `requests` (
 
 INSERT INTO `requests` (`id`, `who_type`, `pickup_country`, `sender_city`, `sender_address`, `sender`, `sender_phone`, `sender_full_phone`, `desti_country`, `receiver_city`, `receiver_address`, `receiver`, `receiver_phone`, `receiver_full_phone`, `van_type`, `help_loading`, `help_unloading`, `tail_lift`, `pickup_weekend`, `pickup_same_day`, `pickup_delelivery_same_country`, `cargo_info`, `cargo_val`, `collection_day`, `contact_name`, `contact_email`, `user_email`, `user_vat`, `contact_phone`, `contact_full_phone`, `contact_note`, `created_at`, `updated_at`, `price`, `total_price`, `order_number`, `status`, `user_id`, `distance`, `duration`, `carrier_id`, `carrier_price`, `intenal_note`, `payment_method`, `invoice_id`, `admin_email_sent`, `order_email_sent`) VALUES
 (1, NULL, 'Belgium', 'Clos Lucien Outers 23, 1160 Auderghem, Brussels, Belgium', NULL, 'Nuria Merlot Castillo', '+32489518090', '+32489518090', 'Spain', 'Calle Aldea Alta, 40, Almuñécar, Granada, Spain', NULL, 'Laura Merlot Castillo', '+34644325864', '+34644325864', 'Curtain Sider', 'true', 'true', 'false', 'false', 'false', 'false', '+- 25 boxes of 55x30x30, a mattress 160x200, book stand (heavier) 110x200, a small living room table 40x44, a dog cage (compact) 90cm, a small kitchen table 90X80, some vacuum bags with clothes in them, a vacuum, a bike, another small table, 4-5 pieces of', '5000', '2023-07-10', 'Nuria Merlot Castillo', 'agnaldosilva19@gmail.com', NULL, NULL, '+32489518090', '+32489518090', NULL, '2023-07-22 22:22:12', '2023-08-31 00:10:09', '2100.00', '2100.00', 110000, 'CONFIRMED', 0, '2,074 km', '34 hours', 6, NULL, NULL, 'Bank Transfer', 1, NULL, NULL),
-(12, NULL, 'Greece', 'Κυπρίων Αγωνιστών 61, Αργυρούπολη, Ελλάδα', 'Κυπρίων Αγωνιστών 61, Αργυρούπολη, Ελλάδα', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', '+306907836685', '+306907836685', 'Germany', 'Kastellstraße, Heilbronn, Γερμανία', 'Kastellstraße, Heilbronn, Γερμανία', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', '+496907836685', '+496907836685', 'box', 'false', 'false', 'false', 'false', 'false', 'false', '20 boxes with clothes,shoes and kitchen staff', '5000', '2023-11-01', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', 'eirinialex1983@gmail.com', NULL, NULL, '+306907836685', '+306907836685', NULL, '2023-08-27 14:05:43', '2023-08-29 16:16:44', '2800.00', '2800.00', 110001, 'WAITING PAYMENT', 0, '2.374 χλμ', '2 mins', 7, NULL, NULL, 'Bank Transfer', 0, 'yes', 'yes');
+(12, NULL, 'Greece', 'Κυπρίων Αγωνιστών 61, Αργυρούπολη, Ελλάδα', 'Κυπρίων Αγωνιστών 61, Αργυρούπολη, Ελλάδα', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', '+306907836685', '+306907836685', 'Germany', 'Kastellstraße, Heilbronn, Γερμανία', 'Kastellstraße, Heilbronn, Γερμανία', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', '+496907836685', '+496907836685', 'box', 'false', 'false', 'false', 'false', 'false', 'false', '20 boxes with clothes,shoes and kitchen staff', '5000', '2023-11-01', 'ΕΙΡΗΝΗ ΑΛΕΞΑΝΔΡΙΔΟΥ', 'eirinialex1983@gmail.com', NULL, NULL, '+306907836685', '+306907836685', NULL, '2023-08-27 14:05:43', '2023-08-29 16:16:44', '2800.00', '2800.00', 110001, 'WAITING PAYMENT', 0, '2.374 χλμ', '2 mins', 7, NULL, NULL, 'Bank Transfer', 0, 'yes', 'yes'),
+(14, NULL, 'Italy', 'Strada senza nome, 00172 Roma RM, Italy', NULL, 'fads', '+3932142134214', '+3932142134214', 'Latvia', 'Stacija, Tīnūžu pagasts, Ogres novads, LV-5015, Latvia', NULL, 'sadfsad', '+37121341234124', '+37121341234124', 'box', 'false', 'false', 'false', 'false', 'false', 'false', 'afadsf', '123', '2023-09-05', 'asdf', 'fs@gmail.com', NULL, NULL, '+393452345', '+393452345', NULL, '2023-09-02 05:23:56', '2023-09-02 05:23:56', '2896.96', '2896.96', 110002, NULL, 0, '2,494 km', '41 hours', NULL, NULL, NULL, NULL, 0, NULL, NULL),
+(15, NULL, 'Denmark', 'Tingskrivervej 7, 8620 Kjellerup, Denmark', NULL, 'qwerqwe', '+45123123123', '+45123123123', 'Hungary', 'Pusztavacs, Pusztavacs, erdészet, 2378 Hungary', NULL, 'qwerq', '+36123123123', '+36123123123', 'Curtain Sider', 'true', 'false', 'false', 'false', 'false', 'false', 'asfdfa', '12', '2023-09-20', 'asdf', 'sdaf@gamil.com', NULL, NULL, '+45123123123', '+45123123123', 'asdfasdf', '2023-09-04 05:22:21', '2023-09-04 10:53:19', '2287.28', '2287.28', 110003, 'DEFERRED PAYMENT', 0, '1,556 km', '25 hours', NULL, NULL, NULL, 'Deferred Payment', 2, 'no', 'yes'),
+(16, NULL, 'Dänemark', 'Tingskrivervej 7, 8620 Kjellerup, Denmark', NULL, 'asdf', '+45123123123', '+45123123123', 'Ungarn', 'Pusztavacs, Pusztavacs, erdészet, 2378 Hungary', NULL, 'asdfa', '+36123123123', '+36123123123', 'box', 'true', 'false', 'false', 'false', 'true', 'false', '123123', '12', '2023-09-04', '1231', 'dsf@gmail.com', NULL, NULL, '+45123123123', '+45123123123', '123', '2023-09-04 05:23:24', '2023-09-04 10:51:25', '2251.58', '2251.58', 110004, 'WAITING PAYMENT', 0, '1,556 km', '25 hours', NULL, NULL, NULL, 'Bank Transfer', 0, 'no', 'yes'),
+(17, NULL, 'Dänemark', 'Tingskrivervej 7, 8620 Kjellerup, Denmark', NULL, 'asdf', '+45123123123', '+45123123123', 'Ungarn', 'Pusztavacs, Pusztavacs, erdészet, 2378 Hungary', NULL, 'sadfasd', '+36123123123', '+36123123123', 'Curtain Sider', 'true', 'false', 'false', 'false', 'false', 'false', 'asdfsadf', '123', '2023-09-05', '123', 'dsf@gmail.com', NULL, NULL, '+45123123123', '+45123123123', 'sdafsadf', '2023-09-04 05:28:09', '2023-09-04 05:28:09', '2287.28', '2287.28', 110005, NULL, 0, '1,556 km', '25 hours', NULL, NULL, NULL, NULL, 0, NULL, NULL),
+(18, 'Company', 'Belgium', 'Av. Stassart 48, 6211 Frasnes-lez-Gosselies, Belgium', NULL, 'asdf', '+32123123123', '+32123123123', 'Czech Republic', 'Komenského 52, 582 82 Golčův Jeníkov, Czechia', NULL, 'asdfasd', '+420123123123', '+420123123123', 'Curtain Sider', 'false', 'true', 'false', 'false', 'false', 'false', 'asdfasd', '123', '2023-09-20', 'asdf', 'as@gmail.com', NULL, NULL, '+321231231232', '+321231231232', 'asdfa', '2023-09-04 10:35:32', '2023-09-04 10:35:56', '1134.30', '1134.30', 110006, 'WAITING PAYMENT', 40, '1,010 km', '16 hours', NULL, NULL, NULL, 'Bank Transfer', 0, 'no', 'yes'),
+(19, 'Company', 'Czech Republic', 'Komenského 52, 582 82 Golčův Jeníkov, Czechia', NULL, 'asdf', '+420123123123', '+420123123123', 'Germany', '5F82+7J Vogtei, Germany', NULL, 'asdfasd', '+49123123123', '+49123123123', 'Curtain Sider', 'true', 'false', 'false', 'false', 'false', 'false', '123', '123', '2023-09-06', '12213', 'as@gmail.com', NULL, NULL, '+420123123123', '+420123123123', '123', '2023-09-04 10:37:38', '2023-09-04 10:37:50', '666.18', '666.18', 110007, 'WAITING PAYMENT', 40, '506 km', '8 hours', NULL, NULL, NULL, 'Bank Transfer', 0, 'no', 'yes'),
+(20, 'Company', 'Czech Republic', 'Komenského 52, 582 82 Golčův Jeníkov, Czechia', NULL, 'asdf', '+420123123123', '+420123123123', 'Croatia', 'Neimenovana cesta, Jezerane, Croatia', NULL, 'asdfasd', '+385123123213', '+385123123213', 'Curtain Sider', 'true', 'false', 'false', 'false', 'false', 'false', '12312', '123', '2023-09-20', 'asdf', 'as@gmail.com', NULL, NULL, '+420123123123', '+420123123123', '312312', '2023-09-04 11:13:07', '2023-09-04 11:13:28', '903.08', '903.08', 110008, 'WAITING PAYMENT', 40, '736 km', '12 hours', NULL, NULL, NULL, 'Bank Transfer', 0, 'no', 'yes');
 
 -- --------------------------------------------------------
 
@@ -2290,11 +2297,11 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT '0',
+  `type` tinyint(4) NOT NULL DEFAULT 0,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `approve` tinyint(4) NOT NULL DEFAULT '0',
+  `approve` tinyint(4) NOT NULL DEFAULT 0,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `zipcode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `city` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2302,15 +2309,15 @@ CREATE TABLE `users` (
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vat_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `valid_vat` tinyint(1) NOT NULL DEFAULT '0',
+  `valid_vat` tinyint(1) NOT NULL DEFAULT 0,
   `vat_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ship_area` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   `additional_email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `internal_note` text COLLATE utf8mb4_unicode_ci,
+  `internal_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `invoice_type` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `paid_type` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `credit_balance` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `credit_balance` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2321,7 +2328,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ty
 (3, 'Admi', 'admin@admin.com', '2023-02-09 12:19:39', '$2y$10$hSoc2dHIpQEMJjKJ1z52EeGAP6ydfn5TcsUJLiJC0XH9bIIm0ZB8q', 1, NULL, '2023-01-17 13:12:16', '2023-01-17 13:12:16', 1, '', NULL, NULL, NULL, '+1 (624) 475-4939', 'Aut magnam aute unde', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0.00'),
 (40, 'James Kaljes', 'info@easymoveeurope.com', '2023-02-15 01:13:31', '$2y$10$Z0qAzfiEqLvc3uupevR4euNf6901eZcz/zy4IVMj2EUISKS.URZBy', 2, NULL, '2023-02-15 01:10:58', '2023-07-13 00:34:25', 0, 'Strada Feleacu 3', '014186', 'Bucharest', 'Easy Move Europe SRL', '31 780 1214', 'Romania', 'RO47795949', 1, NULL, 'international', NULL, NULL, 'This is a test profile', 'Per Week', NULL, '10000.00'),
 (41, 'Agnaldo Jose Da Silva', 'easymoveeurope@gmail.com', '2023-02-17 21:35:26', '$2y$10$0K6zij9XzmGMDW6LKGZUMOhbYnVriWdWgu5ZNBlMO5D08OL2m3TtG', 0, NULL, '2023-02-15 02:14:57', '2023-05-08 23:46:01', 0, 'Rua de Ourique n9,', '7005-398', 'Évora', NULL, '924 305 262', 'Portugal', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0.00'),
-(42, 'Daniel Buksiński', 'daniel.buksinski@gdtrans.eu', '2023-04-03 17:16:50', '$2y$10$IjzKhCek6FWztaPErYbwcONy0o2AAxt1kyzzBVk.2AfeBsnHIIQim', 2, NULL, '2023-04-03 17:09:47', '2023-07-12 16:21:11', 0, 'Żeromskiego 46/57, 21-500 Biała Podlaska', '21-500', 'Biała Podlaska', 'Green Dragon Group Sp.z o.o.', '0606446537', 'Poland', 'PL5372661410', 1, NULL, 'international', NULL, NULL, 'He is carrier', NULL, NULL, '0.00');
+(42, 'Daniel Buksiński', 'daniel.buksinski@gdtrans.eu', '2023-04-03 17:16:50', '$2y$10$IjzKhCek6FWztaPErYbwcONy0o2AAxt1kyzzBVk.2AfeBsnHIIQim', 2, NULL, '2023-04-03 17:09:47', '2023-07-12 16:21:11', 0, 'Żeromskiego 46/57, 21-500 Biała Podlaska', '21-500', 'Biała Podlaska', 'Green Dragon Group Sp.z o.o.', '0606446537', 'Poland', 'PL5372661410', 1, NULL, 'international', NULL, NULL, 'He is carrier', NULL, NULL, '0.00'),
+(43, 'RenNing', 'renning100@gmail.com', '2023-09-02 07:50:04', '$2y$10$DZITdqAgqXcBvsNMRj0P0ORIgxnwMrxjtHOtbxAIdD/had1WzA6cO', 0, NULL, '2023-09-02 07:48:21', '2023-09-02 07:50:04', 0, 'sdfsadf123', '12321', 'asdf', NULL, '2342342342', 'Latvia', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0.00');
 
 --
 -- Indexes for dumped tables
@@ -2503,7 +2511,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -2551,7 +2559,7 @@ ALTER TABLE `repairs`
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -2569,7 +2577,7 @@ ALTER TABLE `translations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
